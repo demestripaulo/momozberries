@@ -127,12 +127,13 @@ Note the Worker URL (e.g. `https://momozberriez.workers.dev`).
 
 ### 7. Deploy frontend to Cloudflare Pages
 
-1. Push this repo to GitHub.
+1. Push this repo to GitHub: **[demestripaulo/momozberries](https://github.com/demestripaulo/momozberries)**
 2. In the Cloudflare dashboard: **Pages → Create a project → Connect to GitHub**.
-3. Settings:
+3. Select the `momozberries` repository.
+4. Settings:
    - **Build command:** *(leave empty — it's a static site)*
    - **Build output directory:** `public`
-4. Deploy.
+5. Deploy.
 
 ### 8. Connect Worker to Pages domain
 
