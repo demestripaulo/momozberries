@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      init_db:
+        description: 'Apply schema.sql to D1 database'
+        type: boolean
+        default: false
 
 jobs:
   deploy:
@@ -22,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Init D1 Database
     needs: deploy
-    if: github.event_name == 'workflow_dispatch'
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.init_db == true }}
     steps:
       - uses: actions/checkout@v4
 
