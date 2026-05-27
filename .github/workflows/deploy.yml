@@ -10,6 +10,10 @@ on:
         description: 'Apply schema.sql + seed.sql to D1 (run once on first setup)'
         type: boolean
         default: false
+      stripe_setup:
+        description: 'Create Stripe products/prices and update D1 with real price IDs'
+        type: boolean
+        default: false
       push_secrets:
         description: 'Push secrets to Cloudflare Worker (requires secrets in GitHub)'
         type: boolean
@@ -64,6 +68,36 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: wrangler d1 execute momozberries-db --file=seed.sql --remote
+
+  stripe-setup:
+    runs-on: ubuntu-latest
+    name: Setup Stripe Products
+    needs: deploy
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.stripe_setup == true }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
+      - name: Create Stripe products and update D1 with real price IDs
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: |
+          node scripts/stripe-setup.js | grep "^UPDATE" > /tmp/stripe-updates.sql
+          echo "--- SQL to be applied ---"
+          cat /tmp/stripe-updates.sql
+          echo "--- Applying to D1 ---"
+          wrangler d1 execute momozberries-db --file=/tmp/stripe-updates.sql --remote
 
   push-secrets:
     runs-on: ubuntu-latest
