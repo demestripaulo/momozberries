@@ -1,4 +1,4 @@
-name = "momozberriez"
+name = "momozberries"
 main = "workers/index.js"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
@@ -8,12 +8,12 @@ directory = "./public"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "momozberriez-db"
+database_name = "momozberries-db"
 database_id = "dc88e037-a29c-4e39-9974-7bff2b2d88ac"
 
 [vars]
 ENVIRONMENT = "production"
-SITE_URL = "https://momozberriez.pages.dev"
+SITE_URL = "https://momozberries.pages.dev"
 DAILY_ORDER_LIMIT = "50"
 PICKUP_ADDRESS = "South Gate, CA 90280"
 
