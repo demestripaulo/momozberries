@@ -13,7 +13,7 @@ database_id = "dc88e037-a29c-4e39-9974-7bff2b2d88ac"
 
 [vars]
 ENVIRONMENT = "production"
-SITE_URL = "https://momozberries.pages.dev"
+SITE_URL = "https://momozberries.demestritech-com.workers.dev/"
 DAILY_ORDER_LIMIT = "50"
 PICKUP_ADDRESS = "South Gate, CA 90280"
 
