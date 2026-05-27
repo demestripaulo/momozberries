@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "Momo'z Berriez — Gen-Z artisan dessert brand e-commerce site",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "db:migrate": "wrangler d1 execute momozberriez-db --file=./schema.sql",
-    "db:seed": "wrangler d1 execute momozberriez-db --file=./seed.sql",
-    "db:migrate:local": "wrangler d1 execute momozberriez-db --local --file=./schema.sql",
-    "db:seed:local": "wrangler d1 execute momozberriez-db --local --file=./seed.sql",
+    "db:migrate": "wrangler d1 execute momozberries-db --file=./schema.sql",
+    "db:seed": "wrangler d1 execute momozberries-db --file=./seed.sql",
+    "db:migrate:local": "wrangler d1 execute momozberries-db --local --file=./schema.sql",
+    "db:seed:local": "wrangler d1 execute momozberries-db --local --file=./seed.sql",
     "stripe:setup": "node scripts/stripe-setup.js",
     "setup": "npm run db:migrate && npm run db:seed"
   },
