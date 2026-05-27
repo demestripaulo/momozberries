@@ -1,0 +1,28 @@
+name = "momozberriez"
+main = "workers/index.js"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "momozberriez-db"
+database_id = "YOUR_D1_DATABASE_ID"
+
+[vars]
+ENVIRONMENT = "production"
+SITE_URL = "https://momozberriez.pages.dev"
+DAILY_ORDER_LIMIT = "50"
+PICKUP_ADDRESS = "South Gate, CA 90280"
+
+# Secrets — set via `wrangler secret put`:
+# STRIPE_SECRET_KEY
+# STRIPE_WEBHOOK_SECRET
+# ADMIN_PASSWORD
+# JWT_SECRET
+
+[[triggers]]
+crons = ["0 8 * * *"]
+
+[dev]
+port = 8787
+local_protocol = "http"

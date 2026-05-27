@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu & Order — Momo'z Berriez | South Gate, CA</title>
+  <meta name="description" content="Order gourmet fresas con crema, matcha yogurt cups, churro cheesecake and more. Pickup only in South Gate, CA. 50 orders/day max.">
+  <link rel="canonical" href="https://momozberriez.com/menu.html">
+  <link rel="alternate" hreflang="en-US" href="https://momozberriez.com/menu.html">
+  <link rel="alternate" hreflang="x-default" href="https://momozberriez.com/menu.html">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://momozberriez.com/"},
+      {"@type":"ListItem","position":2,"name":"Menu","item":"https://momozberriez.com/menu.html"}
+    ]
+  }
+  </script>
+  <meta property="og:title" content="Menu — Momo'z Berriez">
+  <meta property="og:description" content="10 handmade berry desserts. Vegan, GF, High-Protein options. Pickup only, South Gate CA.">
+  <meta property="og:image" content="https://momozberriez.com/images/products/1.png">
+  <meta property="og:url" content="https://momozberriez.com/menu.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('momoz_theme')||'light'}catch(e){}</script>
+</head>
+<body>
+
+<div class="demo-banner" role="alert">🧪 DEMO SITE — Stripe Test Mode — No real charges</div>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Momo'z Berriez 🍓</a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/menu.html" class="nav-link active nav-link-order">Menu</a>
+      <a href="https://instagram.com/momozberriez" target="_blank" rel="noopener noreferrer" class="nav-link">Instagram</a>
+      <button class="theme-toggle" id="theme-btn" aria-label="Toggle color theme"></button>
+      <a href="/cart.html" class="nav-cart-btn" id="nav-cart-btn" aria-label="Cart">
+        🛒 Cart <span class="cart-count" id="nav-cart-count"></span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div id="avail-banner" class="avail-banner" role="status" aria-live="polite">
+  🍓 We accept only <span class="avail-badge">50 orders/day</span> — pickup only — South Gate, CA.
+</div>
+
+<div style="background:var(--white);padding:48px 20px 0">
+  <div style="max-width:1280px;margin:0 auto">
+    <p class="section-label">Order Now</p>
+    <h1 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;margin-bottom:8px;">Our Full Menu 🍓</h1>
+    <p style="color:var(--muted);margin-bottom:28px;max-width:520px;">Every cup is made fresh the morning of your pickup. Substitutions available at no extra charge.</p>
+    <div class="filter-bar" role="group" aria-label="Filter products">
+      <button class="filter-pill active" data-filter="all">All</button>
+      <button class="filter-pill" data-filter="high-protein">⚡ High-Protein</button>
+      <button class="filter-pill" data-filter="vegan">🌱 Vegan</button>
+      <button class="filter-pill" data-filter="gf">🌾 Gluten-Free</button>
+      <button class="filter-pill" data-filter="keto">💜 Keto</button>
+      <button class="filter-pill" data-filter="seasonal">🍂 Seasonal</button>
+    </div>
+  </div>
+</div>
+
+<section class="section products-section" style="padding-top:28px" aria-label="Product menu">
+  <div class="section-inner">
+    <div id="sold-out-msg" class="sold-out-overlay hidden" role="alert">
+      <h2>Sold Out Today 🍓</h2>
+      <p>We've reached our 50-order limit for today. Come back tomorrow — we restock every morning!</p>
+      <a href="https://instagram.com/momozberriez" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="margin-top:20px;display:inline-flex;">Follow for updates</a>
+    </div>
+    <div id="product-grid" class="product-grid" role="list">
+      <div class="skeleton-card skeleton" role="presentation"></div>
+      <div class="skeleton-card skeleton" role="presentation"></div>
+      <div class="skeleton-card skeleton" role="presentation"></div>
+      <div class="skeleton-card skeleton" role="presentation"></div>
+      <div class="skeleton-card skeleton" role="presentation"></div>
+      <div class="skeleton-card skeleton" role="presentation"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Product Modal -->
+<div id="product-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+  <div class="modal" id="modal-content">
+    <div class="modal-handle" aria-hidden="true"></div>
+    <button class="modal-close" id="modal-close-btn" aria-label="Close product details">✕</button>
+    <div class="modal-img-wrap">
+      <img id="modal-img" src="" alt="" width="640" height="255" loading="lazy">
+    </div>
+    <div class="modal-body">
+      <h2 class="modal-name" id="modal-name"></h2>
+      <div class="modal-price" id="modal-price"></div>
+      <p class="modal-desc" id="modal-desc"></p>
+
+      <div id="modal-nutrition-section">
+        <p class="modal-section">Nutrition per serving</p>
+        <div class="nutrition-grid" id="modal-nutrition">
+          <div class="nutrition-cell"><div class="nutrition-val" id="modal-cal">—</div><div class="nutrition-lbl">Calories</div></div>
+          <div class="nutrition-cell"><div class="nutrition-val" id="modal-protein">—</div><div class="nutrition-lbl">Protein</div></div>
+          <div class="nutrition-cell"><div class="nutrition-val" id="modal-carbs">—</div><div class="nutrition-lbl">Carbs</div></div>
+          <div class="nutrition-cell"><div class="nutrition-val" id="modal-fat">—</div><div class="nutrition-lbl">Fat</div></div>
+        </div>
+      </div>
+
+      <div id="modal-subs-section">
+        <p class="modal-section" style="margin-top:18px">Substitutions (free)</p>
+        <div class="sub-pills" id="modal-subs" role="group" aria-label="Dietary substitutions"></div>
+      </div>
+
+      <div class="qty-row" aria-label="Quantity selector">
+        <button class="qty-btn" id="qty-minus" aria-label="Decrease quantity">−</button>
+        <span class="qty-val" id="qty-val" aria-live="polite">1</span>
+        <button class="qty-btn" id="qty-plus" aria-label="Increase quantity">+</button>
+        <span style="color:var(--muted);font-size:.85rem;margin-left:auto" id="modal-subtotal"></span>
+      </div>
+
+      <button class="btn-primary" id="add-to-cart-btn">Add to Cart 🛒</button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Cart -->
+<a href="/cart.html" class="floating-cart" id="floating-cart" aria-label="View cart">
+  🛒 <span id="floating-cart-count">0 items</span>
+  <span class="floating-total" id="floating-cart-total"></span>
+</a>
+
+<div id="toast-wrap" class="toast-wrap" aria-live="assertive" aria-atomic="true"></div>
+
+<script type="module" src="/js/analytics.js"></script>
+<script type="module" src="/js/menu.js"></script>
+<script>
+(function(){var b=document.getElementById('theme-btn');function u(){var t=document.documentElement.dataset.theme||'light';if(b)b.textContent=t==='dark'?'☀️':'🌙';}u();if(b)b.addEventListener('click',function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('momoz_theme',n)}catch(e){}u();});})();
+</script>
+</body>
+</html>

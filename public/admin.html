@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Back Office — Momo'z Berriez</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body class="admin-body">
+
+<div class="demo-banner" role="alert">🧪 DEMO SITE — Back Office</div>
+
+<!-- ─── LOGIN VIEW ─────────────────────────────────────────────── -->
+<div id="login-view" class="admin-login">
+  <div class="admin-login-card">
+    <div style="font-size:2.2rem;margin-bottom:12px">🍓</div>
+    <h1>Back Office</h1>
+    <p>Momo'z Berriez Admin Dashboard</p>
+    <form id="login-form" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="admin-password">Password</label>
+        <input
+          type="password"
+          id="admin-password"
+          class="form-input"
+          autocomplete="current-password"
+          placeholder="Enter admin password"
+          required
+        >
+        <div id="login-error" class="form-error hidden"></div>
+      </div>
+      <button type="submit" class="btn-primary" id="login-btn" style="margin-top:8px">
+        Sign In
+      </button>
+    </form>
+    <a href="/" style="display:block;margin-top:18px;font-size:.82rem;color:var(--muted)">← Back to site</a>
+  </div>
+</div>
+
+<!-- ─── ADMIN APP ──────────────────────────────────────────────── -->
+<div id="admin-app" class="hidden">
+
+  <!-- Top nav -->
+  <nav class="admin-topnav" aria-label="Admin navigation">
+    <div class="admin-topnav-logo">🍓 Back Office</div>
+    <div class="admin-topnav-links" role="group">
+      <button class="admin-nav-btn active" data-view="dashboard">Dashboard</button>
+      <button class="admin-nav-btn" data-view="orders">Orders</button>
+      <button class="admin-nav-btn" data-view="products">Products</button>
+      <button class="admin-nav-btn" id="logout-btn" style="margin-left:8px;opacity:.65">Sign Out</button>
+    </div>
+  </nav>
+
+  <main class="admin-main">
+
+    <!-- ─── DASHBOARD VIEW ────────────────────────────────────── -->
+    <section id="view-dashboard">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:20px">Today's Overview</h2>
+
+      <div class="stat-grid" id="stat-grid">
+        <div class="stat-card">
+          <div class="stat-label">Orders Today</div>
+          <div class="stat-value" id="stat-orders-today">—</div>
+          <div class="stat-sub" id="stat-remaining">— remaining</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Revenue Today</div>
+          <div class="stat-value" id="stat-revenue-today">—</div>
+          <div class="stat-sub">Gross sales</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Orders This Week</div>
+          <div class="stat-value" id="stat-orders-week">—</div>
+          <div class="stat-sub" id="stat-revenue-week">—</div>
+        </div>
+        <div class="stat-card" id="stat-accepting-card">
+          <div class="stat-label">Today's Status</div>
+          <div class="stat-value" id="stat-accepting">—</div>
+          <div class="stat-sub">Order acceptance</div>
+        </div>
+      </div>
+
+      <!-- 7-day chart -->
+      <div class="card-box">
+        <div class="card-box-header">
+          <h3 class="card-box-title">Orders — Last 7 Days</h3>
+        </div>
+        <div class="chart-wrap" id="dash-chart" aria-label="Orders bar chart"></div>
+      </div>
+
+      <!-- Today's orders quick list -->
+      <div class="card-box">
+        <div class="card-box-header">
+          <h3 class="card-box-title">Today's Orders</h3>
+          <button class="btn-sm btn-edit" id="refresh-orders-btn">↻ Refresh</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="admin-table" id="dash-orders-table">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Pickup</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="dash-orders-body">
+              <tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── ORDERS VIEW ───────────────────────────────────────── -->
+    <section id="view-orders" class="hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem">Order Manager</h2>
+        <button class="btn-sm btn-edit" id="orders-refresh-btn">↻ Refresh</button>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" role="tab" data-period="today">Today</button>
+        <button class="tab-btn" role="tab" data-period="week">This Week</button>
+        <button class="tab-btn" role="tab" data-period="all">All Orders</button>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="admin-table" id="orders-table">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Notes</th>
+              <th>Total</th>
+              <th>Pickup</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="orders-body">
+            <tr><td colspan="8" style="text-align:center;color:var(--muted);padding:24px">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ─── PRODUCTS VIEW ─────────────────────────────────────── -->
+    <section id="view-products" class="hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem">Product Manager</h2>
+        <button class="btn-primary" id="new-product-btn" style="width:auto;padding:10px 22px;font-size:.88rem">+ New Product</button>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="admin-table" id="products-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Product</th>
+              <th>Price</th>
+              <th>COGS</th>
+              <th>Margin</th>
+              <th>Tags</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="products-body">
+            <tr><td colspan="8" style="text-align:center;color:var(--muted);padding:24px">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ─── PRODUCT EDIT MODAL ────────────────────────────────────── -->
+<div id="product-modal" class="admin-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+  <div class="admin-modal-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+      <h3 id="product-modal-title" style="font-family:'Playfair Display',serif;font-size:1.4rem">New Product</h3>
+      <button id="product-modal-close" class="modal-close" style="position:static" aria-label="Close">✕</button>
+    </div>
+
+    <form id="product-form" novalidate>
+      <input type="hidden" id="pf-id">
+
+      <div class="admin-form-grid">
+        <div class="form-group">
+          <label class="form-label" for="pf-name">Product Name *</label>
+          <input type="text" id="pf-name" class="form-input" required maxlength="120" placeholder="Classic Fresas con Crema">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="pf-price">Price (USD) *</label>
+          <input type="number" id="pf-price" class="form-input" required min="0" step="0.01" placeholder="14.00">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="pf-desc">Description</label>
+        <textarea id="pf-desc" class="form-input" rows="3" maxlength="600" style="resize:vertical"></textarea>
+      </div>
+
+      <div class="admin-form-grid">
+        <div class="form-group">
+          <label class="form-label" for="pf-photo">Photo URL</label>
+          <input type="text" id="pf-photo" class="form-input" placeholder="/images/products/1.png">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="pf-calories">Calories</label>
+          <input type="number" id="pf-calories" class="form-input" min="0" placeholder="320">
+        </div>
+      </div>
+
+      <div class="admin-form-grid">
+        <div class="form-group">
+          <label class="form-label" for="pf-protein">Protein (g)</label>
+          <input type="number" id="pf-protein" class="form-input" min="0" step="0.1" placeholder="8">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="pf-carbs">Carbs (g)</label>
+          <input type="number" id="pf-carbs" class="form-input" min="0" step="0.1" placeholder="38">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Dietary Tags</label>
+        <div class="dietary-checks">
+          <label class="dietary-check"><input type="checkbox" id="pf-high-protein"> ⚡ High-Protein</label>
+          <label class="dietary-check"><input type="checkbox" id="pf-vegan"> 🌱 Vegan Available</label>
+          <label class="dietary-check"><input type="checkbox" id="pf-gf"> 🌾 Gluten-Free Available</label>
+          <label class="dietary-check"><input type="checkbox" id="pf-keto"> 💜 Keto Available</label>
+          <label class="dietary-check"><input type="checkbox" id="pf-seasonal"> 🍂 Seasonal</label>
+        </div>
+      </div>
+
+      <!-- Ingredient Cost Calculator -->
+      <div style="margin-top:24px;border-top:2px dashed var(--rose);padding-top:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <h4 style="font-family:'Playfair Display',serif;font-size:1.05rem">Ingredient Cost Calculator</h4>
+          <button type="button" id="add-ingredient-btn" class="btn-sm btn-edit">+ Add Ingredient</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 80px 90px 100px 90px 28px;gap:6px;margin-bottom:6px">
+          <span style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Ingredient</span>
+          <span style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Amount</span>
+          <span style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Unit</span>
+          <span style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Unit Cost $</span>
+          <span style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Cost/Serv</span>
+          <span></span>
+        </div>
+
+        <div id="ingredient-rows"></div>
+      </div>
+
+      <!-- Profit Analysis Panel -->
+      <div class="profit-panel" id="profit-panel">
+        <h4 style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:10px">Profit Analysis</h4>
+        <div class="profit-row"><span>Cost to Produce (COGS)</span><span id="pa-cogs">$0.00</span></div>
+        <div class="profit-row"><span>Suggested Min Price (3×)</span><span id="pa-min">$0.00</span></div>
+        <div class="profit-row"><span>Suggested Std Price (4×)</span><span id="pa-std">$0.00</span></div>
+        <div class="profit-row"><span>Your Price</span><span id="pa-price">$0.00</span></div>
+        <div class="profit-row highlight"><span>Profit Margin</span><span id="pa-margin">—</span></div>
+        <div style="margin-top:12px;text-align:center">
+          <span id="pa-viability" style="font-size:1rem;font-weight:700"></span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:22px">
+        <button type="submit" class="btn-primary" id="save-product-btn" style="flex:1">Save Product</button>
+        <button type="button" id="cancel-product-btn" class="btn-secondary" style="flex:0;padding:12px 20px">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="toast-wrap" class="toast-wrap" aria-live="assertive" aria-atomic="true"></div>
+
+<script type="module" src="/js/admin.js"></script>
+</body>
+</html>

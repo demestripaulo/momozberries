@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Wrangler local state
+.wrangler/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Secrets & env
+.env
+.env.*
+*.secret
+
+# Local dev output
+dist/
+.dev.vars
+
+# macOS
+.DS_Store
+**/.DS_Store
+__MACOSX/
+
+# Loose files (not part of the web project)
+*.png
+*.PNG
+*.jpg
+*.jpeg
+*.gif
+!public/images/**
+!public/favicon.svg
+
+# Claude internal
+.claude/
+
+# Prompt files
+CLAUDE CODE PROMPT*.md
