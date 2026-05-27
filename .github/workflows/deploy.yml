@@ -80,34 +80,35 @@ jobs:
       - name: Install Wrangler
         run: npm install -g wrangler
 
-      - name: Push STRIPE_SECRET_KEY
-        if: ${{ secrets.STRIPE_SECRET_KEY != '' }}
+      - name: Push secrets to Cloudflare Worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          SECRET_VALUE: ${{ secrets.STRIPE_SECRET_KEY }}
-        run: echo "$SECRET_VALUE" | wrangler secret put STRIPE_SECRET_KEY
+          VAL_STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          VAL_STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          VAL_ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          VAL_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: |
+          if [ -n "$VAL_STRIPE_SECRET_KEY" ]; then
+            echo "$VAL_STRIPE_SECRET_KEY" | wrangler secret put STRIPE_SECRET_KEY
+          else
+            echo "⚠️  STRIPE_SECRET_KEY not set in GitHub Secrets — skipping"
+          fi
 
-      - name: Push STRIPE_WEBHOOK_SECRET
-        if: ${{ secrets.STRIPE_WEBHOOK_SECRET != '' }}
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          SECRET_VALUE: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
-        run: echo "$SECRET_VALUE" | wrangler secret put STRIPE_WEBHOOK_SECRET
+          if [ -n "$VAL_STRIPE_WEBHOOK_SECRET" ]; then
+            echo "$VAL_STRIPE_WEBHOOK_SECRET" | wrangler secret put STRIPE_WEBHOOK_SECRET
+          else
+            echo "⚠️  STRIPE_WEBHOOK_SECRET not set in GitHub Secrets — skipping"
+          fi
 
-      - name: Push ADMIN_PASSWORD
-        if: ${{ secrets.ADMIN_PASSWORD != '' }}
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          SECRET_VALUE: ${{ secrets.ADMIN_PASSWORD }}
-        run: echo "$SECRET_VALUE" | wrangler secret put ADMIN_PASSWORD
+          if [ -n "$VAL_ADMIN_PASSWORD" ]; then
+            echo "$VAL_ADMIN_PASSWORD" | wrangler secret put ADMIN_PASSWORD
+          else
+            echo "⚠️  ADMIN_PASSWORD not set in GitHub Secrets — skipping"
+          fi
 
-      - name: Push JWT_SECRET
-        if: ${{ secrets.JWT_SECRET != '' }}
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          SECRET_VALUE: ${{ secrets.JWT_SECRET }}
-        run: echo "$SECRET_VALUE" | wrangler secret put JWT_SECRET
+          if [ -n "$VAL_JWT_SECRET" ]; then
+            echo "$VAL_JWT_SECRET" | wrangler secret put JWT_SECRET
+          else
+            echo "⚠️  JWT_SECRET not set in GitHub Secrets — skipping"
+          fi
