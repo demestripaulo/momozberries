@@ -6,7 +6,7 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "momozberriez-db"
-database_id = "YOUR_D1_DATABASE_ID"
+database_id = "dc88e037-a29c-4e39-9974-7bff2b2d88ac"
 
 [vars]
 ENVIRONMENT = "production"
